@@ -1,0 +1,17 @@
+#!/bin/bash
+set -eo pipefail
+shopt -s dotglob
+
+BUILD_DIR=$1
+BUILDPACK=$2
+CACHE_DIR=$3
+SLUG_DIR=$4
+CONFIG_DIR=$5
+
+if [[ -d $CONFIG_DIR ]]; then
+    for file in $CONFIG_DIR/*; do
+        source $file
+    done
+fi
+
+/usr/local/bin/slug-compiler $BUILD_DIR $BUILDPACK $CACHE_DIR $CONFIG_DIR
